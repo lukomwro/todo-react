@@ -1,16 +1,14 @@
-import React from "react";
-import { useState, useRef, useEffect } from "react";
-import Form from "./components/Form";
-import FilterButton from "./components/FilterButton";
-import Todo from "./components/Todo";
-import { nanoid } from "nanoid";
+import React, { useEffect, useRef, useState } from 'react';
+import Form from './components/Form';
+import FilterButton from './components/FilterButton';
+import Todo from './components/Todo';
+import { nanoid } from 'nanoid';
 
 
 function usePrevious(value) {
   const ref = useRef();
   useEffect(() => {
     ref.current = value;
-    // ref.old = value;
   });
   return ref.current;
 }
@@ -28,7 +26,7 @@ function App(props) {
   const [filter, setFilter] = useState('All');
 
   function toggleTaskCompleted(id) {
-    if (Number(id) === NaN) {
+    if (isNaN(Number(id))) {
       return;
     }
     const updatedTasks = tasks.map(task => {
@@ -54,9 +52,8 @@ function App(props) {
     const editedTaskList = tasks.map(task => {
       // if this task has the same ID as the edited task
       if (id === task.id) {
-        if (task.editable == true) {
-          const newTask = { ...task, name: newName };
-          return newTask;
+        if (task.editable === true) {
+          return { ...task, name: newName };
         }
       }
       return task;
@@ -101,9 +98,6 @@ function App(props) {
   const prevTaskLength = usePrevious(tasks.length);
   const alternativeUrl = "http://todo.org";
 
-  // function getIntegrity() {
-  //   "sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC";
-  // }
 
   useEffect(() => {
     const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -111,7 +105,6 @@ function App(props) {
     if (isDarkMode) {
       const script = document.createElement("script"); // Sensitive
       script.src = "https://cdnexample.com/dark-mode-styles.js";
-      // script.integrity = getIntegrity();
       document.head.appendChild(script);
     }
   }, []);
@@ -120,8 +113,7 @@ function App(props) {
     if (tasks.length - prevTaskLength === -1) {
       listHeadingRef.current.focus();
     }
-    return;
-  }, [tasks.length, , prevTaskLength]);
+  }, [tasks.length, prevTaskLength]);
 
   return (
     <div className="todoapp stack-large">
